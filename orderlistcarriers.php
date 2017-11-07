@@ -33,15 +33,15 @@ class OrderListCarriers extends Module
     {
         $this->name = 'orderlistcarriers';
         $this->tab = 'administration';
-        $this->version = '1.0.0';
+        $this->version = '1.0.1';
         $this->author = 'thirty bees';
 
         $this->bootstrap = true;
 
         parent::__construct();
 
-        $this->displayName = $this->l('States on address list ');
-        $this->description = $this->l('Show states on the address list of the admin panel');
+        $this->displayName = $this->l('Carrier on order list ');
+        $this->description = $this->l('Show carriers on the order list of the admin panel');
     }
 
     /**
