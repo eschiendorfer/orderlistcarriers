@@ -67,16 +67,23 @@ class OrderListCarriers extends Module
      */
     public function hookActionAdminOrdersListingFieldsModifier($params)
     {
+
+        $params['select'] = !empty($params['select']) ? $params['select'].', ' : '';
+        $params['select'] .= ' olcarrier.id_carrier, olcarrier.name AS olcarrier, crm_o.date_shipping_delayed ';
+
         if (!isset($params['join'])) {
             $params['join'] = '';
         }
-        $params['join'] .= "\n\t\tLEFT JOIN `"._DB_PREFIX_.bqSQL(Carrier::$definition['table'])."` olcarrier ON (a.`id_carrier` = olcarrier.`id_carrier`)";
-        $params['fields']['olcarrier!name'] = [
+        $params['join'] .= " LEFT JOIN `"._DB_PREFIX_.bqSQL(Carrier::$definition['table'])."` olcarrier ON (a.`id_carrier` = olcarrier.`id_carrier`)";
+        $params['join'] .= ' LEFT JOIN '._DB_PREFIX_.'genzo_crm_order AS crm_o ON a.id_order=crm_o.id_order ';
+
+        $params['fields']['olcarrier'] = [
             'title'           => $this->l('Carrier'),
             'align'           => 'center',
             'class'           => 'fixed-width-xs',
             'filter_key'      => 'olcarrier!name',
             'type'            => 'text',
+            'callback'        => 'renderCarrier'
         ];
     }
 }
